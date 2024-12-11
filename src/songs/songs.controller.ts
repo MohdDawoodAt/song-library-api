@@ -15,8 +15,11 @@ export class SongsController {
   constructor(private songsService: SongsService) {}
 
   @Get()
-  async findAllSongs(): Promise<Song[]> {
-    return this.songsService.findAllSongs();
+  async findAllSongs(
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '5',
+  ): Promise<Song[]> {
+    return this.songsService.findAllSongs(Number(page), Number(limit));
   }
 
   @Get('search')

@@ -8,8 +8,9 @@ import { InjectModel } from '@nestjs/mongoose';
 export class SongsService {
   constructor(@InjectModel(Song.name) private songModel: Model<Song>) {}
 
-  async findAllSongs(): Promise<Song[]> {
-    return this.songModel.find().exec();
+  async findAllSongs(page: number, limit: number): Promise<Song[]> {
+    const skip = (page - 1) * limit;
+    return this.songModel.find().skip(skip).limit(limit).exec();
   }
 
   async searchSongs(songName: string) {
