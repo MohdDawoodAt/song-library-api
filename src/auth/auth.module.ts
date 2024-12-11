@@ -3,7 +3,6 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { AdminModule } from 'src/admin/admin.module';
 import { JwtModule } from '@nestjs/jwt';
-// import { configDotenv } from 'dotenv';
 import { ConfigService } from '@nestjs/config';
 @Module({
   imports: [

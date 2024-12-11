@@ -12,6 +12,16 @@ export class SongsService {
     return this.songModel.find().exec();
   }
 
+  async searchSongs(songName: string) {
+    const foundSongs = this.songModel
+      .find({
+        name: { $regex: songName, $options: 'i' },
+      })
+      .exec();
+
+    return foundSongs;
+  }
+
   async addSong(songDTO: songDTO): Promise<Song> {
     const addedSong = await this.songModel.create(songDTO);
     return addedSong;

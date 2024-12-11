@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { Song } from './schemas/song.schema';
 import { songDTO } from './dto/song.dto';
@@ -8,13 +15,21 @@ export class SongsController {
   constructor(private songsService: SongsService) {}
 
   @Get()
-  findAllSongs(): Promise<Song[]> {
+  async findAllSongs(): Promise<Song[]> {
     return this.songsService.findAllSongs();
   }
 
+  @Get('search')
+  searchSongs(@Query('songName') songName: string): Promise<Song[]> {
+    if (!songName) {
+      throw new BadRequestException('songName parameter is required');
+    } else {
+      return this.songsService.searchSongs(songName);
+    }
+  }
   //   @UseGuards(AuthGuard)
   @Post()
-  addSong(@Body() song: songDTO) {
+  async addSong(@Body() song: songDTO) {
     return this.songsService.addSong(song);
   }
 }

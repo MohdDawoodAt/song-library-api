@@ -16,17 +16,14 @@ export class AdminService {
   async initializeAdmin() {
     const existingAdmin = await this.findAdmin(process.env.ADMIN_USERNAME);
     if (existingAdmin) {
-      console.log('no added admin');
-      console.log(existingAdmin);
       return;
     } else {
       const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
       const newAdmin = new this.adminModel({
-        username: process.env.USERNAME,
+        username: process.env.ADMIN_USERNAME,
         passwordHash: hashedPassword,
       });
       await newAdmin.save();
-      console.log('added admin');
     }
   }
 }
