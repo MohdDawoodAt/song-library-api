@@ -15,7 +15,7 @@ export class AuthService {
     password: string,
   ): Promise<{ access_token: string }> {
     const admin = await this.adminService.findAdmin(username);
-
+    console.log(process.env.SECRET);
     const isAdmin = await this.comparePasswords({
       plainPassword: password,
       hashedPassword: admin.passwordHash,

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, OnApplicationBootstrap } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Admin, AdminSchema } from './schemas/admin.schema';
@@ -10,4 +10,9 @@ import { Admin, AdminSchema } from './schemas/admin.schema';
   providers: [AdminService],
   exports: [AdminService],
 })
-export class AdminModule {}
+export class AdminModule implements OnApplicationBootstrap {
+  constructor(private readonly adminService: AdminService) {}
+  async onApplicationBootstrap() {
+    await this.adminService.initializeAdmin();
+  }
+}
