@@ -5,10 +5,12 @@ import {
   Get,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { Song } from './schemas/song.schema';
 import { songDTO } from './dto/song.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller()
 export class SongsController {
@@ -30,9 +32,17 @@ export class SongsController {
       return this.songsService.searchSongs(songName);
     }
   }
-  //   @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Post()
   async addSong(@Body() song: songDTO) {
     return this.songsService.addSong(song);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('populate')
+  populateDatabase() {
+    return this.songsService.fetchAndSavePlaylistTracks(
+      '3tcf8yf9aT8gHHpMbbMRYr',
+    );
   }
 }
