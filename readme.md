@@ -111,7 +111,3 @@ Additionally, define the following environment variables for admin access:
        "releaseDate": "Release Date"
      }
      ```
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
