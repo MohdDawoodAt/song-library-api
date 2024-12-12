@@ -43,7 +43,7 @@ export class SongsController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('populate')
+  @Post('populate')
   populateDatabase() {
     return this.songsService.fetchAndSavePlaylistTracks(
       this.configService.get<string>('SPOTIFY_PLAYLIST_ID'),
