@@ -5,21 +5,21 @@ services:
     build: .
     container_name: song-library-backend
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - mongoDB
+    env_file:
+      - ./.env
     environment:
       - MONGO_URL=mongodb://mongoDB:27017/songsdb
-  
+
   mongoDB:
     image: mongo:latest
     container_name: mongoDB
     ports:
-      - "27017:27017"
+      - '27017:27017'
     volumes:
       - mongoDB_data:/data/db
 
-
 volumes:
-    mongoDB_data:
-
+  mongoDB_data:

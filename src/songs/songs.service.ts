@@ -20,7 +20,7 @@ export class SongsService {
     return this.songModel.find().skip(skip).limit(limit).exec();
   }
 
-  async searchSongs(songName: string) {
+  async searchSongs(songName: string): Promise<Song[]> {
     const foundSongs = this.songModel
       .find({
         name: { $regex: songName, $options: 'i' },
@@ -56,7 +56,6 @@ export class SongsService {
         status: 'Successfully fetched and saved',
       };
     } catch {
-      // this.logger.error('Error during fetching and saving tracks:', error);
       throw new Error('Failed to fetch and save playlist tracks.');
     }
   }

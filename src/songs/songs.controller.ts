@@ -11,10 +11,14 @@ import { SongsService } from './songs.service';
 import { Song } from './schemas/song.schema';
 import { songDTO } from './dto/song.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { ConfigService } from '@nestjs/config';
 
 @Controller()
 export class SongsController {
-  constructor(private songsService: SongsService) {}
+  constructor(
+    private songsService: SongsService,
+    private configService: ConfigService,
+  ) {}
 
   @Get()
   async findAllSongs(
@@ -42,7 +46,7 @@ export class SongsController {
   @Get('populate')
   populateDatabase() {
     return this.songsService.fetchAndSavePlaylistTracks(
-      '3tcf8yf9aT8gHHpMbbMRYr',
+      this.configService.get<string>('SPOTIFY_PLAYLIST_ID'),
     );
   }
 }
