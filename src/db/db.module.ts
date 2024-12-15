@@ -3,8 +3,9 @@ import { DbService } from './db.service';
 import { ConfigService } from '@nestjs/config';
 import { Pool } from 'pg';
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { AdminSchema } from './schemas/admin.schema';
+// import { AdminSchema } from './schemas/admin.schema';
 import { SongSchema } from 'src/songs/schemas/song.schema';
+import { AdminSchema } from './schemas/admin.schema';
 export const DRIZZLE = Symbol('drizzle-connection');
 @Module({
   providers: [
