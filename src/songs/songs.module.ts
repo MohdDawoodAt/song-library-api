@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
 import { SongsController } from './songs.controller';
 import { SongsService } from './songs.service';
-import { Song, SongSchema } from './schemas/song.schema';
-import { MongooseModule } from '@nestjs/mongoose';
+
 import { SpotifyService } from './spotify/spotify.service';
+import { DbModule } from 'src/db/db.module';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: Song.name, schema: SongSchema }]),
-  ],
+  imports: [DbModule],
   controllers: [SongsController],
   providers: [SongsService, SpotifyService],
 })

@@ -8,6 +8,9 @@ export class AuthController {
   @Post()
   async login(@Body() body: { username: string; password: string }) {
     const { username, password } = body;
+    // console.log(
+    //   'auth controller username and password : ' + username + password,
+    // );
     return await this.authService.login(username, password);
   }
 }

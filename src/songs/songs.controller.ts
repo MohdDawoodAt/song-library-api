@@ -8,7 +8,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
-import { Song } from './schemas/song.schema';
 import { songDTO } from './dto/song.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ConfigService } from '@nestjs/config';
@@ -24,12 +23,12 @@ export class SongsController {
   async findAllSongs(
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '5',
-  ): Promise<Song[]> {
+  ): Promise<songDTO[]> {
     return this.songsService.findAllSongs(Number(page), Number(limit));
   }
 
   @Get('search')
-  searchSongs(@Query('songName') songName: string): Promise<Song[]> {
+  searchSongs(@Query('songName') songName: string): Promise<songDTO[]> {
     if (!songName) {
       throw new BadRequestException('songName parameter is required');
     } else {

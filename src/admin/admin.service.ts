@@ -17,11 +17,12 @@ export class AdminService {
   ) {}
 
   async findAdmin(username: string) {
-    const existingAdmin = this.db
+    const existingAdmin = await this.db
       .select()
       .from(AdminSchema)
       .where(eq(AdminSchema.username, username))
       .execute();
+    // console.log(existingAdmin);
     return existingAdmin;
   }
 
@@ -29,7 +30,10 @@ export class AdminService {
     const existingAdmin = await this.findAdmin(
       this.configService.get<string>('ADMIN_USERNAME'),
     );
-    if (existingAdmin) {
+    if (existingAdmin.length !== 0) {
+      // console.log('admin exists');
+      // console.log(existingAdmin);
+
       return;
     } else {
       const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
@@ -40,6 +44,7 @@ export class AdminService {
           passwordHash: hashedPassword,
         })
         .execute();
+      console.log('added admin');
     }
   }
 }

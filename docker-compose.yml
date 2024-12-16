@@ -11,8 +11,7 @@ services:
     env_file:
       - ./.env
     environment:
-      - POSTGRES_URL=postgresql://postgres:example@postgresDB:5432/songsdb
-
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresDB:5432/${POSTGRES_DB}
   postgresDB:
     image: postgres:latest
     container_name: postgresDB

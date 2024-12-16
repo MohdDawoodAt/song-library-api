@@ -1,11 +1,13 @@
 import { Module, OnApplicationBootstrap } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Admin, AdminSchema } from './schemas/admin.schema';
+import { DbModule } from 'src/db/db.module';
+// import { MongooseModule } from '@nestjs/mongoose';
+// import { Admin, AdminSchema } from './schemas/admin.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }]), // Provide the AdminModel here
+    DbModule,
+    // MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }]), // Provide the AdminModel here
   ],
   providers: [AdminService],
   exports: [AdminService],

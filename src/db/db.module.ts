@@ -1,26 +1,22 @@
 import { Module } from '@nestjs/common';
-import { DbService } from './db.service';
-import { ConfigService } from '@nestjs/config';
+// import { DbService } from './db.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Pool } from 'pg';
 import { drizzle } from 'drizzle-orm/node-postgres';
 // import { AdminSchema } from './schemas/admin.schema';
-import { SongSchema } from 'src/songs/schemas/song.schema';
+import { SongSchema } from 'src/db/schemas/song.schema';
 import { AdminSchema } from './schemas/admin.schema';
 export const DRIZZLE = Symbol('drizzle-connection');
 @Module({
+  imports: [ConfigModule],
   providers: [
     {
       provide: DRIZZLE,
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        // const dbUrl = configService.get<string>('pgUrl');
+        const dbUrl = configService.get<string>('PG_URL');
         const pool = new Pool({
-          // connectionString: dbUrl,
-          user: configService.get<string>('POSTGRES_USER'),
-          host: configService.get<string>('POSTGRES_HOST'),
-          database: configService.get<string>('POSTGRES_DB'),
-          password: configService.get<string>('POSTGRES_PASSWORD'),
-          port: configService.get<number>('POSTGRES_PORT'),
+          connectionString: dbUrl,
         });
         return drizzle(pool, {
           schema: {
@@ -31,7 +27,7 @@ export const DRIZZLE = Symbol('drizzle-connection');
       },
     },
   ],
-  exports: [DbService],
+  exports: [DRIZZLE],
 })
 export class DbModule {
   // constructor(private configService: ConfigService) {}

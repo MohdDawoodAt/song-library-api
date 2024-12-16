@@ -48,6 +48,7 @@ export class SongsService {
 
   async saveTracksToDatabase(tracks: songDTO[]): Promise<void> {
     try {
+      // console.log(tracks);
       await this.db.insert(SongSchema).values(tracks);
     } catch {
       throw new Error('Failed to save tracks to Database');
@@ -58,8 +59,10 @@ export class SongsService {
     playlistId: string,
   ): Promise<{ status: string }> {
     try {
+      // console.log('fetchandsave tried ong');
       const tracks =
         await this.spotifyService.fetchSpotifyPlaylistTracks(playlistId);
+
       await this.saveTracksToDatabase(tracks);
       return {
         status: 'Successfully fetched and saved',
