@@ -17,7 +17,7 @@ export class AuthService {
     const admin = await this.adminService.findAdmin(username);
     const isAdmin = await this.comparePasswords({
       plainPassword: password,
-      hashedPassword: admin.passwordHash,
+      hashedPassword: admin[0].passwordHash,
     });
 
     if (!isAdmin) {

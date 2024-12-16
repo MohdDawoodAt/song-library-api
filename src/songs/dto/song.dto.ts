@@ -7,7 +7,7 @@ export class songDTO {
 
   @IsString()
   @IsNotEmpty()
-  artists: string;
+  artist: string;
 
   @IsString()
   @IsNotEmpty()
