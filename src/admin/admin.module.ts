@@ -15,7 +15,7 @@ import { DbModule } from 'src/db/db.module';
 export class AdminModule implements OnApplicationBootstrap {
   constructor(private readonly adminService: AdminService) {}
   async onApplicationBootstrap() {
-    // await this.adminService.initializeAdmin();
+    await this.adminService.initializeAdmin();
     // console.log('maybe adding admin');
   }
 }

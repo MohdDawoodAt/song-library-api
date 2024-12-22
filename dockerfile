@@ -9,7 +9,7 @@ RUN npm install
 COPY . .
 
 RUN npm run build
-
+RUN npm install drizzle-kit --save-dev
 EXPOSE 3000
 
-CMD [ "npm" , "run" , "start:dev"]
+CMD ["sh", "-c", "npx drizzle-kit migrate && npm run start"]

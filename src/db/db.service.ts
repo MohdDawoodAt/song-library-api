@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-// import { DrizzleConfig } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 
 @Injectable()
 export class DbService {
   private pool: Pool;
+
   constructor(private configService: ConfigService) {
     this.pool = new Pool({
       user: this.configService.get<string>('POSTGRES_USER'),
@@ -23,6 +23,7 @@ export class DbService {
         console.error('Error connecting to PostgreSQL:', error),
       );
   }
+
   getDrizzleInstance() {
     return drizzle(this.pool);
   }
