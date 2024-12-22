@@ -18,18 +18,27 @@ export class SongsService {
     private spotifyService: SpotifyService,
   ) {}
 
-  async findAllSongs(page: number, limit: number): Promise<songDTO[]> {
+  async findAllSongs(
+    page: number,
+    limit: number,
+  ): Promise<{ songs: songDTO[]; totalPages: number }> {
     const skip = (page - 1) * limit;
-    return this.db
+    // Calculate total pages
+    const totalPages = await this.findTotalPages(skip, limit);
+
+    // Fetch songs
+    const songs = await this.db
       .select()
       .from(SongSchema)
       .offset(skip)
       .limit(limit)
       .execute();
+
+    return { songs, totalPages };
   }
 
   async searchSongs(songName: string): Promise<songDTO[]> {
-    const foundSongs = this.db
+    const foundSongs = await this.db
       .select()
       .from(SongSchema)
       .where(sql`${SongSchema.name} ILIKE ${'%' + songName + '%'}`)
@@ -48,7 +57,6 @@ export class SongsService {
 
   async saveTracksToDatabase(tracks: songDTO[]): Promise<void> {
     try {
-      // console.log(tracks);
       await this.db.insert(SongSchema).values(tracks);
     } catch {
       throw new Error('Failed to save tracks to Database');
@@ -59,7 +67,6 @@ export class SongsService {
     playlistId: string,
   ): Promise<{ status: string }> {
     try {
-      // console.log('fetchandsave tried ong');
       const tracks =
         await this.spotifyService.fetchSpotifyPlaylistTracks(playlistId);
 
@@ -70,5 +77,16 @@ export class SongsService {
     } catch {
       throw new Error('Failed to fetch and save playlist tracks.');
     }
+  }
+  async findTotalPages(skip: number, limit: number): Promise<number> {
+    const [{ count }] = await this.db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(SongSchema)
+      .execute();
+
+    if (count === 0) return 0;
+    const totalPages = Math.ceil(count / limit);
+
+    return totalPages;
   }
 }

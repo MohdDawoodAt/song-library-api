@@ -22,8 +22,8 @@ export class SongsController {
   @Get()
   async findAllSongs(
     @Query('page') page: string = '1',
-    @Query('limit') limit: string = '5',
-  ): Promise<songDTO[]> {
+    @Query('limit') limit: string = '8',
+  ): Promise<{ songs: songDTO[]; totalPages: number }> {
     return this.songsService.findAllSongs(Number(page), Number(limit));
   }
 

@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
-// import { DbService } from './db.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Pool } from 'pg';
 import { drizzle } from 'drizzle-orm/node-postgres';
-// import { AdminSchema } from './schemas/admin.schema';
 import { SongSchema } from 'src/db/schemas/song.schema';
 import { AdminSchema } from './schemas/admin.schema';
 export const DRIZZLE = Symbol('drizzle-connection');
@@ -29,6 +27,4 @@ export const DRIZZLE = Symbol('drizzle-connection');
   ],
   exports: [DRIZZLE],
 })
-export class DbModule {
-  // constructor(private configService: ConfigService) {}
-}
+export class DbModule {}
