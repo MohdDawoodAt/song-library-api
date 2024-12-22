@@ -5,10 +5,7 @@ import { SpotifyService } from './spotify/spotify.service';
 import { DRIZZLE } from 'src/db/db.module';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { SongSchema } from 'src/db/schemas/song.schema';
-// import { pgTable } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
-
-// import axios from 'axios';
 
 @Injectable()
 export class SongsService {
@@ -67,6 +64,13 @@ export class SongsService {
     playlistId: string,
   ): Promise<{ status: string }> {
     try {
+      const songs = await this.db.select().from(SongSchema).execute();
+
+      if (songs.length > 0) {
+        return {
+          status: 'Database already populated with songs',
+        };
+      }
       const tracks =
         await this.spotifyService.fetchSpotifyPlaylistTracks(playlistId);
 
@@ -78,6 +82,7 @@ export class SongsService {
       throw new Error('Failed to fetch and save playlist tracks.');
     }
   }
+
   async findTotalPages(skip: number, limit: number): Promise<number> {
     const [{ count }] = await this.db
       .select({ count: sql<number>`COUNT(*)` })

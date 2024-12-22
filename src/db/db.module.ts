@@ -5,6 +5,7 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { SongSchema } from 'src/db/schemas/song.schema';
 import { AdminSchema } from './schemas/admin.schema';
 export const DRIZZLE = Symbol('drizzle-connection');
+
 @Module({
   imports: [ConfigModule],
   providers: [
