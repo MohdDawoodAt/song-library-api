@@ -81,7 +81,7 @@ Additionally, define the following environment variables for admin access:
     }
     ```
 
-- **GET** `/populate`
+- **POST** `/populate`
   - Fetch playlist tracks from Spotify and save them to the database.
   - Requires admin authentication via the **AuthGuard**.
   - Response: A message indicating the number of tracks fetched and saved.
