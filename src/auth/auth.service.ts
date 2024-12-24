@@ -14,9 +14,7 @@ export class AuthService {
     username: string,
     password: string,
   ): Promise<{ access_token: string }> {
-    // console.log('auth login: looking for admin');
     const admin = await this.adminService.findAdmin(username);
-    // console.log(admin);
     const isAdmin = await this.comparePasswords({
       plainPassword: password,
       hashedPassword: admin[0].passwordHash,
@@ -36,6 +34,6 @@ export class AuthService {
     plainPassword,
     hashedPassword,
   }): Promise<boolean> {
-    return bcrypt.compare(plainPassword, hashedPassword); // Returns true if they match
+    return bcrypt.compare(plainPassword, hashedPassword);
   }
 }

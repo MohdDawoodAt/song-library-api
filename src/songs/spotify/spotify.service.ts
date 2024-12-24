@@ -11,8 +11,7 @@ export class SpotifyService {
     const clientSecret = this.configService.get<string>(
       'SPOTIFY_CLIENT_SECRET',
     );
-    // console.log('spot client id:' + clientId);
-    // console.log('spot client secret:' + clientSecret);
+
     const spotifyTokenUrl = 'https://accounts.spotify.com/api/token';
 
     const data = new URLSearchParams({
@@ -26,26 +25,20 @@ export class SpotifyService {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       });
 
-      // this.logger.log('Access token retrieved successfully.');
-      // console.log('we got a spotify access token' + response.data);
       return response.data.access_token;
     } catch {
-      // this.logger.error('Error fetching access token:', error);
       throw new Error('Failed to retrieve access token.');
     }
   }
 
   async fetchSpotifyPlaylistTracks(playlistId: string) {
-    // console.log('tring to get access token');
     const accessToken = await this.getSpotifyAccessToken();
-    // console.log('we got spotify access token ' + accessToken);
     const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
 
     try {
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-      // console.log(response);
 
       return response.data.items.map((item: any) => ({
         name: item.track.name,
@@ -56,7 +49,6 @@ export class SpotifyService {
         releaseDate: item.track.album.release_date,
       }));
     } catch {
-      //   this.logger.error('Error fetching playlist tracks:', error);
       throw new Error('Failed to fetch playlist tracks.');
     }
   }
